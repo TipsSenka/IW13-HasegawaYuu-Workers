@@ -188,8 +188,10 @@
     </div>
 
     <div class="button-row">
-      <button id="courseBtn" type="button">/api/course を取得</button>
-      <button id="helloBtn" class="secondary" type="button">/api/hello を取得</button>
+      <button id="courseBtn" type="button">/api/course</button>
+      <button id="helloBtn" class="secondary" type="button">/api/hello</button>
+      <button id="fortuneBtn" type="button">/api/fortune</button>
+      <button id="eventsBtn" class="secondary" type="button">/api/events</button>
     </div>
 
     <div class="row">
@@ -244,6 +246,15 @@
     document.getElementById('helloBtn').addEventListener('click', () => {
       const name = encodeURIComponent(nameInput.value || '');
       callApi(`/api/hello?name=${name}`);
+    });
+
+    document.getElementById('fortuneBtn').addEventListener('click', () => {
+      const name = encodeURIComponent(nameInput.value || 'あなた');
+      callApi(`/api/fortune?name=${name}`);
+    });
+
+    document.getElementById('eventsBtn').addEventListener('click', () => {
+      callApi('/api/events');
     });
   </script>
 </body>
