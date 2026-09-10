@@ -6,7 +6,7 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 
-// .wrangler/tmp/bundle-ve1bMF/strip-cf-connecting-ip-header.js
+// .wrangler/tmp/bundle-xRAQ5u/strip-cf-connecting-ip-header.js
 function stripCfConnectingIPHeader(input, init) {
   const request = new Request(input, init);
   request.headers.delete("CF-Connecting-IP");
@@ -897,6 +897,23 @@ var corsHeaders = {
   "Access-Control-Allow-Methods": "GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization"
 };
+var courses = [
+  { id: 1, title: "\u57FA\u790EWeb\u30C7\u30B6\u30A4\u30F3", category: "design", instructor: "\u5C71\u7530" },
+  { id: 2, title: "Cloudflare Workers\u5165\u9580", category: "cloud", instructor: "\u9234\u6728" },
+  { id: 3, title: "JavaScript\u5FDC\u7528\u6F14\u7FD2", category: "programming", instructor: "\u4F50\u85E4" }
+];
+var fortunes = [
+  { label: "\u5927\u5409", message: "\u4ECA\u65E5\u306F\u6700\u9AD8\u306E\u4E00\u65E5\u3067\u3059\u3002\u7A4D\u6975\u7684\u306B\u884C\u52D5\u3059\u308B\u3068\u826F\u3044\u7D50\u679C\u304C\u898B\u3048\u307E\u3059\u3002", advice: "\u65B0\u3057\u3044\u6311\u6226\u306B\u524D\u5411\u304D\u306B\u53D6\u308A\u7D44\u307F\u307E\u3057\u3087\u3046\u3002" },
+  { label: "\u4E2D\u5409", message: "\u7126\u3089\u305A\u4E01\u5BE7\u306B\u9032\u3081\u3070\u3001\u601D\u308F\u306C\u30E9\u30C3\u30AD\u30FC\u304C\u5F85\u3063\u3066\u3044\u307E\u3059\u3002", advice: "\u4E00\u6B69\u305A\u3064\u7740\u5B9F\u306B\u9032\u3081\u308B\u3068\u826F\u3044\u7D50\u679C\u306B\u3064\u306A\u304C\u308A\u307E\u3059\u3002" },
+  { label: "\u5C0F\u5409", message: "\u5C0F\u3055\u306A\u597D\u6A5F\u304C\u3044\u304F\u3064\u304B\u3042\u308B\u65E5\u3067\u3059\u3002\u6C17\u3065\u304D\u3092\u5927\u5207\u306B\u3057\u307E\u3057\u3087\u3046\u3002", advice: "\u7D30\u304B\u306A\u3053\u3068\u3092\u4E01\u5BE7\u306B\u3053\u306A\u3059\u3068\u904B\u304C\u958B\u304D\u307E\u3059\u3002" },
+  { label: "\u5409", message: "\u843D\u3061\u7740\u3044\u3066\u884C\u52D5\u3059\u308B\u3068\u3001\u610F\u5916\u306A\u5F62\u3067\u52A9\u3051\u304C\u5C4A\u304D\u307E\u3059\u3002", advice: "\u4F59\u88D5\u3092\u6301\u3063\u3066\u5224\u65AD\u3059\u308B\u306E\u304C\u5409\u3067\u3059\u3002" },
+  { label: "\u51F6", message: "\u4ECA\u65E5\u306F\u7121\u7406\u3092\u305B\u305A\u3001\u4F11\u3080\u3053\u3068\u3092\u512A\u5148\u3057\u3066\u3088\u3044\u65E5\u3067\u3059\u3002", advice: "\u614E\u91CD\u306B\u9032\u3081\u3066\u3001\u4F53\u8ABF\u3068\u6C17\u5206\u3092\u6574\u3048\u307E\u3057\u3087\u3046\u3002" }
+];
+var events = [
+  { id: 1, title: "Cloudflare\u52C9\u5F37\u4F1A", date: "2026-09-20", location: "\u30AA\u30F3\u30E9\u30A4\u30F3", category: "tech" },
+  { id: 2, title: "\u30D5\u30ED\u30F3\u30C8\u30A8\u30F3\u30C9\u4EA4\u6D41\u4F1A", date: "2026-09-27", location: "\u6771\u4EAC", category: "community" },
+  { id: 3, title: "Web\u30A2\u30D7\u30EA\u958B\u767A\u30CF\u30C3\u30AB\u30BD\u30F3", date: "2026-10-05", location: "\u5927\u962A", category: "hackathon" }
+];
 var jsonResponse = /* @__PURE__ */ __name((data, init = {}) => {
   const headers = new Headers(corsHeaders);
   headers.set("Content-Type", "application/json; charset=utf-8");
@@ -910,6 +927,7 @@ var jsonResponse = /* @__PURE__ */ __name((data, init = {}) => {
     headers
   });
 }, "jsonResponse");
+var pickRandom = /* @__PURE__ */ __name((items) => items[Math.floor(Math.random() * items.length)], "pickRandom");
 var src_default = {
   async fetch(request) {
     if (request.method === "OPTIONS") {
@@ -919,12 +937,7 @@ var src_default = {
       });
     }
     if (request.method !== "GET") {
-      return jsonResponse(
-        {
-          error: "Method not allowed"
-        },
-        { status: 405 }
-      );
+      return jsonResponse({ error: "Method not allowed" }, { status: 405 });
     }
     const url = new URL(request.url);
     const pathname = url.pathname;
@@ -932,43 +945,22 @@ var src_default = {
       return jsonResponse({
         ok: true,
         message: "Worker API is running.",
-        endpoints: ["/api", "/api/course", "/api/hello?name=\u5C71\u7530"]
+        endpoints: [
+          "/api",
+          "/api/course",
+          "/api/hello?name=\u5C71\u7530",
+          "/api/fortune?name=\u5C71\u7530",
+          "/api/events"
+        ]
       });
     }
     if (pathname === "/api/course") {
-      return jsonResponse({
-        ok: true,
-        courses: [
-          {
-            id: 1,
-            title: "\u57FA\u790EWeb\u30C7\u30B6\u30A4\u30F3",
-            category: "design",
-            instructor: "\u5C71\u7530"
-          },
-          {
-            id: 2,
-            title: "Cloudflare Workers\u5165\u9580",
-            category: "cloud",
-            instructor: "\u9234\u6728"
-          },
-          {
-            id: 3,
-            title: "JavaScript\u5FDC\u7528\u6F14\u7FD2",
-            category: "programming",
-            instructor: "\u4F50\u85E4"
-          }
-        ]
-      });
+      return jsonResponse({ ok: true, courses });
     }
     if (pathname === "/api/hello") {
       const name = url.searchParams.get("name");
       if (!name || name.trim() === "") {
-        return jsonResponse(
-          {
-            error: "name query parameter is required"
-          },
-          { status: 400 }
-        );
+        return jsonResponse({ error: "name query parameter is required" }, { status: 400 });
       }
       return jsonResponse({
         ok: true,
@@ -976,14 +968,21 @@ var src_default = {
         name
       });
     }
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Not found",
-        path: pathname
-      },
-      { status: 404 }
-    );
+    if (pathname === "/api/fortune") {
+      const name = url.searchParams.get("name") || "\u3042\u306A\u305F";
+      const fortune = pickRandom(fortunes);
+      return jsonResponse({
+        ok: true,
+        name,
+        fortune: fortune.label,
+        message: fortune.message,
+        advice: fortune.advice
+      });
+    }
+    if (pathname === "/api/events") {
+      return jsonResponse({ ok: true, events });
+    }
+    return jsonResponse({ ok: false, error: "Not found", path: pathname }, { status: 404 });
   }
 };
 
@@ -1028,7 +1027,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-ve1bMF/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-xRAQ5u/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -1060,7 +1059,7 @@ function __facade_invoke__(request, env2, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-ve1bMF/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-xRAQ5u/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;
